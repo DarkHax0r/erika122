@@ -52,10 +52,6 @@ class Koleksi(models.Model):
     
     def total_koleksi():
         return Koleksi.objects.aggregate(total_jumlah=Count('nama_koleksi'))['total_jumlah'] or 0
-
-
-
-
     
 # -------------------RATING-----------------
 class Rating(models.Model):
@@ -74,6 +70,25 @@ class Rating(models.Model):
     def __str__(self):
         return self.kesan
 
+
+# -----------------------Booking--------------------
+
+from django.db import models
+
+class Booking(models.Model):
+    id_booking = models.AutoField(primary_key=True)
+    tanggal_pengajuan = models.DateField()
+    waktu_pengajuan = models.TimeField()
+    no_hp = models.CharField(max_length=15)
+    asal_rombongan = models.CharField(max_length=100)
+    institusi = models.CharField(max_length=100)
+    jumlah_rombongan = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Booking {self.id_booking}"
+
+
+        
 
 
 

@@ -531,3 +531,29 @@ def login_view(request):
             login(request, user)
             return redirect('menu_admin')
     return render(request, 'login.html')
+
+
+# -----------------Kelola Booking -----------------
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required 
+from django.contrib import messages
+from .forms import BookingForm  # Import the BookingForm
+
+# ...
+
+@login_required
+def kelola_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            # Save the booking data
+            form.save()
+            messages.success(request, 'Booking berhasil ditambahkan.')
+            return redirect('kelola_booking')
+    else:
+        form = BookingForm()
+    
+    context = {'form': form}
+    return render(request, 'kelola_booking.html', context)
+

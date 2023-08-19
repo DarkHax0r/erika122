@@ -76,3 +76,30 @@ class formlogin(forms.Form):
                 }
             )
         )
+    
+    
+# -------------Kelola Booking---------------
+
+from django import forms
+from .models import Booking
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = '__all__'  # Ini akan mencakup semua kolom dari model Booking
+        # Jika Anda ingin menentukan kolom-kolom tertentu secara manual, Anda dapat menggunakan:
+        # fields = ['tanggal_pengajuan', 'waktu_pengajuan', 'no_hp', 'asal_rombongan', 'institusi', 'jumlah_rombongan']
+
+from django.shortcuts import render, redirect
+from .forms import BookingForm
+
+def create_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success_page')  # Ganti 'success_page' dengan URL yang sesuai
+    else:
+        form = BookingForm()
+    
+    return render(request, 'booking_form.html', {'form': form})
